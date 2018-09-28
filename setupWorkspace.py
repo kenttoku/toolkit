@@ -1,11 +1,17 @@
 import pyautogui
 import time
 import webbrowser
+import config
+import sys
+import os
 
 # Settings
-MOD = "winleft"
-# PROJECT_DIRECTORY = "~/Desktop/projects/ei24"
-PROJECT_DIRECTORY = "~/toolkit"
+MOD = config.MOD
+PROJECT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
+
+if (len(sys.argv) > 1) and (config.CURRENT_PROJECTS[sys.argv[1]]):
+    PROJECT_DIRECTORY = config.CURRENT_PROJECTS[sys.argv[1]]
+
 
 # Basic Commands
 NEW_TERMINAL = {"command": "enter", "useShift": False}
@@ -85,6 +91,10 @@ def openVSCode():
 def changeTerminalDirectory(dir):
     pyautogui.typewrite(f"cd {dir}")
     pyautogui.press('enter')
+
+def killAll():
+    holdCommand(FOCUS_PARENT)
+    runCommand(KILL)
 
 def main():
     changeTerminalDirectory(PROJECT_DIRECTORY)
